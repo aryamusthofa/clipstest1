@@ -1,0 +1,49 @@
+name: Temporary export Armuzz intro source
+on:
+  push:
+    paths:
+      - '.github/workflows/armuzz-temp-export.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  export-source:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Extract and repackage source
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          from zipfile import ZipFile, ZIP_DEFLATED
+
+          archive = Path("Armuzz_Intro_Dev_v1.1.zip")
+          if not archive.is_file():
+              raise SystemExit("Source archive not found")
+
+          output = Path("extracted_source")
+          output.mkdir(exist_ok=True)
+          with ZipFile(archive) as source:
+              bad = source.testzip()
+              if bad:
+                  raise SystemExit(f"Corrupt ZIP member: {bad}")
+              source.extractall(output)
+
+          files = [p for p in output.rglob("*") if p.is_file()]
+          if not files:
+              raise SystemExit("Archive contains no files")
+
+          with ZipFile("Armuzz_Intro_Dev_v1.1_extracted.zip", "w", ZIP_DEFLATED) as target:
+              for path in files:
+                  target.write(path, path.relative_to(output))
+          print(f"Extracted {len(files)} files")
+          PY
+      - name: Upload extracted source
+        uses: actions/upload-artifact@v4
+        with:
+          name: armuzz-intro-extracted-source
+          path: Armuzz_Intro_Dev_v1.1_extracted.zip
+          if-no-files-found: error
+          retention-days: 1
