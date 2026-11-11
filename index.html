@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#111827">
+  <meta name="description" content="DailyFlow — pengelola tugas harian yang ringan, privat, dan bekerja langsung di browser.">
+  <title>DailyFlow — Ruang Kerja Harian</title>
+  <style>
+    :root{color-scheme:dark;--bg:#0b1020;--panel:#121a2d;--panel2:#182238;--line:#27334c;--text:#edf2ff;--muted:#9aa8c2;--accent:#9be3c2;--accent2:#d4f6e5;--danger:#ff9a9a;--shadow:0 18px 50px #0005}
+    *{box-sizing:border-box}body{margin:0;min-height:100vh;background:radial-gradient(ellipse at 12% 0%,#1a3150 0,transparent 38%),var(--bg);color:var(--text);font:15px/1.5 Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif}
+    button,input,select{font:inherit}button{cursor:pointer}.shell{width:min(1040px,calc(100% - 32px));margin:auto;padding:38px 0 56px}
+    header{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:28px}.brand{display:flex;align-items:center;gap:12px}.logo{width:42px;height:42px;border-radius:14px;display:grid;place-items:center;background:var(--accent);color:#10251d;font-weight:900;font-size:20px}.brand strong{display:block;font-size:18px;letter-spacing:-.5px}.brand small{color:var(--muted)}
+    .date{color:var(--muted);font-size:13px;text-align:right}.hero{display:grid;grid-template-columns:1.45fr .75fr;gap:16px;margin-bottom:18px}.welcome,.progress,.composer,.list-panel{background:linear-gradient(145deg,#17233a,#111a2b);border:1px solid var(--line);border-radius:22px;box-shadow:var(--shadow)}
+    .welcome{padding:27px}.eyebrow{color:var(--accent);font-size:11px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase}.welcome h1{font-size:clamp(27px,5vw,40px);line-height:1.1;letter-spacing:-1.5px;margin:9px 0}.welcome p{margin:0;color:var(--muted);max-width:500px}.progress{padding:24px;display:flex;flex-direction:column;justify-content:center}.progress-top{display:flex;justify-content:space-between;align-items:center;color:var(--muted);font-size:13px}.progress strong{font-size:31px;color:var(--accent2);letter-spacing:-1px}.bar{height:8px;background:#293650;border-radius:99px;overflow:hidden;margin:13px 0 8px}.bar span{display:block;width:0;height:100%;background:linear-gradient(90deg,#76d4aa,#c3f0d8);border-radius:99px;transition:width .25s}.progress small{color:var(--muted)}
+    .composer{padding:18px;margin-bottom:16px}.composer form{display:grid;grid-template-columns:1fr 145px 125px auto;gap:9px}.field{min-width:0;background:#0d1526;border:1px solid var(--line);color:var(--text);border-radius:12px;padding:12px 13px;outline:none}.field:focus{border-color:var(--accent);box-shadow:0 0 0 3px #9be3c21c}.field::placeholder{color:#75839d}.primary{border:0;border-radius:12px;padding:11px 17px;background:var(--accent);color:#10251d;font-weight:800}.primary:hover{background:var(--accent2)}.hint{font-size:12px;color:var(--muted);margin:9px 2px 0}
+    .list-panel{padding:20px}.list-head{display:flex;justify-content:space-between;gap:14px;align-items:center;margin-bottom:15px}.list-head h2{font-size:17px;margin:0}.count{color:var(--muted);font-size:12px}.toolbar{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:15px}.tabs{display:flex;gap:5px;padding:4px;border:1px solid var(--line);border-radius:12px;background:#0d1526}.tab{padding:7px 12px;border:0;border-radius:8px;background:transparent;color:var(--muted);font-size:12px}.tab[aria-pressed=true]{background:#26364f;color:var(--text)}.search{width:min(230px,100%);padding:9px 11px;font-size:13px}
+    .tasks{display:grid;gap:8px}.task{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:12px;padding:13px;background:#0e1729;border:1px solid #202d45;border-radius:14px;transition:border .2s,transform .2s}.task:hover{border-color:#536580;transform:translateY(-1px)}.check{width:20px;height:20px;accent-color:#9be3c2;cursor:pointer}.task-title{font-weight:650;overflow-wrap:anywhere}.task.done .task-title{color:#75839d;text-decoration:line-through}.meta{display:flex;gap:8px;flex-wrap:wrap;margin-top:4px;color:var(--muted);font-size:11px}.pill{padding:2px 7px;border-radius:99px;background:#1b2a40}.priority-high{color:#ffb0a3}.priority-medium{color:#f4d18b}.priority-low{color:#9be3c2}.overdue{color:var(--danger)!important}.actions{display:flex;gap:5px}.icon-btn{border:1px solid transparent;background:transparent;color:var(--muted);border-radius:8px;padding:7px}.icon-btn:hover{background:#26364f;color:var(--text)}.icon-btn.delete:hover{color:var(--danger)}.empty{padding:42px 12px;text-align:center;color:var(--muted)}.empty b{display:block;color:var(--text);font-size:15px;margin-bottom:5px}.footer{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:14px;color:var(--muted);font-size:12px}.text-btn{background:transparent;border:0;color:var(--muted);padding:5px}.text-btn:hover{color:var(--danger)}dialog{width:min(440px,calc(100% - 28px));padding:0;border:1px solid var(--line);border-radius:18px;background:#121c30;color:var(--text);box-shadow:var(--shadow)}dialog::backdrop{background:#030712b8;backdrop-filter:blur(4px)}.dialog-inner{padding:22px}.dialog-inner h3{margin:0 0 15px}.dialog-inner label{display:block;color:var(--muted);font-size:12px;margin:12px 0 5px}.dialog-inner input,.dialog-inner select{width:100%}.dialog-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:18px}.secondary{border:1px solid var(--line);border-radius:11px;padding:10px 14px;background:#1c2940;color:var(--text)}
+    @media(max-width:720px){.shell{padding-top:22px}.hero{grid-template-columns:1fr}.progress{padding:18px}.composer form{grid-template-columns:1fr 1fr}.composer form input:first-child{grid-column:1/-1}.composer form button{grid-column:1/-1}.list-panel{padding:15px}.task{gap:9px}.date{max-width:130px}.welcome{padding:22px}}
+    @media(max-width:420px){header{align-items:flex-start}.toolbar{align-items:stretch}.search{width:100%}.tabs{justify-content:space-between}.tab{flex:1;padding:7px 6px}.task{grid-template-columns:auto 1fr}.actions{grid-column:2;justify-content:flex-end;margin-top:-4px}.footer{align-items:flex-start;flex-direction:column}}
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <header>
+      <div class="brand"><div class="logo" aria-hidden="true">D</div><div><strong>DailyFlow</strong><small>Ruang kecil untuk hal penting.</small></div></div>
+      <div class="date" id="today"></div>
+    </header>
+    <section class="hero" aria-label="Ringkasan harian">
+      <div class="welcome"><div class="eyebrow">Hari ini, satu langkah dulu</div><h1>Kerjakan yang<br>berarti.</h1><p>Catat tugas, tentukan prioritas, lalu lanjutkan satu per satu. Progres kecil tetaplah progres.</p></div>
+      <div class="progress"><div class="progress-top"><span>Progres tugas</span><span id="ratio">0 / 0</span></div><strong id="percent">0%</strong><div class="bar"><span id="bar"></span></div><small id="progress-note">Mulai dengan satu tugas kecil.</small></div>
+    </section>
+    <section class="composer" aria-label="Tambah tugas">
+      <form id="task-form">
+        <input class="field" id="new-title" maxlength="120" placeholder="Apa yang ingin kamu selesaikan?" aria-label="Nama tugas" required>
+        <select class="field" id="new-category" aria-label="Kategori"><option>Pribadi</option><option>Belajar</option><option>Proyek</option><option>Pekerjaan</option></select>
+        <select class="field" id="new-priority" aria-label="Prioritas"><option value="medium">Sedang</option><option value="high">Tinggi</option><option value="low">Santai</option></select>
+        <button class="primary" type="submit">+ Tambah</button>
+      </form>
+      <div class="hint">Data disimpan di browser perangkat ini. Tidak perlu akun dan tidak dikirim ke server.</div>
+    </section>
+    <section class="list-panel" aria-label="Daftar tugas">
+      <div class="list-head"><h2>Daftar tugas</h2><span class="count" id="task-count">0 tugas</span></div>
+      <div class="toolbar">
+        <div class="tabs" role="group" aria-label="Filter tugas">
+          <button class="tab" data-filter="all" aria-pressed="true">Semua</button>
+          <button class="tab" data-filter="active" aria-pressed="false">Aktif</button>
+          <button class="tab" data-filter="done" aria-pressed="false">Selesai</button>
+        </div>
+        <input class="field search" id="search" type="search" placeholder="Cari tugas..." aria-label="Cari tugas">
+      </div>
+      <div class="tasks" id="tasks" aria-live="polite"></div>
+      <div class="footer"><span id="remaining">Tidak ada tugas yang tertunda.</span><button class="text-btn" id="clear-done" type="button">Hapus tugas selesai</button></div>
+    </section>
+  </main>
+  <dialog id="edit-dialog">
+    <form class="dialog-inner" id="edit-form">
+      <h3>Edit tugas</h3>
+      <label for="edit-title">Nama tugas</label><input class="field" id="edit-title" maxlength="120" required>
+      <label for="edit-category">Kategori</label><select class="field" id="edit-category"><option>Pribadi</option><option>Belajar</option><option>Proyek</option><option>Pekerjaan</option></select>
+      <label for="edit-priority">Prioritas</label><select class="field" id="edit-priority"><option value="low">Santai</option><option value="medium">Sedang</option><option value="high">Tinggi</option></select>
+      <label for="edit-due">Batas waktu (opsional)</label><input class="field" id="edit-due" type="date">
+      <div class="dialog-actions"><button class="secondary" type="button" id="cancel-edit">Batal</button><button class="primary" type="submit">Simpan perubahan</button></div>
+    </form>
+  </dialog>
+  <script>
+    (() => {
+      "use strict";
+      const STORAGE_KEY = "dailyflow.tasks.v1";
+      const $ = (selector) => document.querySelector(selector);
+      const state = { tasks: loadTasks(), filter: "all", query: "", editingId: null };
+      const today = new Date();
+      $("#today").textContent = new Intl.DateTimeFormat("id-ID",{weekday:"long",day:"numeric",month:"long",year:"numeric"}).format(today);
+
+      function loadTasks() {
+        try {
+          const value = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
+          return Array.isArray(value) ? value.filter(t => t && typeof t.id === "string" && typeof t.title === "string") : [];
+        } catch { return []; }
+      }
+      function save() {
+        try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state.tasks)); }
+        catch { alert("Penyimpanan browser penuh atau tidak tersedia. Coba hapus sebagian data."); }
+      }
+      function id() { return window.crypto?.randomUUID?.() || "task-" + Date.now() + "-" + Math.random().toString(16).slice(2); }
+      function escapeHTML(value) { return String(value).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c])); }
+      function dateLabel(value) {
+        if (!value) return "";
+        const date = new Date(value + "T00:00:00");
+        return new Intl.DateTimeFormat("id-ID",{day:"numeric",month:"short"}).format(date);
+      }
+      function isOverdue(task) {
+        if (!task.due || task.done) return false;
+        const now = new Date(); now.setHours(0,0,0,0);
+        return new Date(task.due + "T00:00:00") < now;
+      }
+      function render() {
+        const total = state.tasks.length;
+        const completed = state.tasks.filter(t => t.done).length;
+        const active = total - completed;
+        const percent = total ? Math.round(completed / total * 100) : 0;
+        $("#ratio").textContent = completed + " / " + total;
+        $("#percent").textContent = percent + "%";
+        $("#bar").style.width = percent + "%";
+        $("#progress-note").textContent = total ? (active ? active + " tugas lagi. Kamu bisa!" : "Semua beres. Kerja bagus!") : "Mulai dengan satu tugas kecil.";
+        $("#task-count").textContent = total + (total === 1 ? " tugas" : " tugas");
+        $("#remaining").textContent = active ? active + " tugas masih perlu perhatian." : "Tidak ada tugas yang tertunda.";
+        const visible = state.tasks.filter(t => {
+          const filterMatch = state.filter === "all" || (state.filter === "active" && !t.done) || (state.filter === "done" && t.done);
+          return filterMatch && t.title.toLowerCase().includes(state.query);
+        }).sort((a,b) => Number(a.done)-Number(b.done) || ({high:0,medium:1,low:2}[a.priority] - {high:0,medium:1,low:2}[b.priority]) || b.createdAt-a.createdAt);
+        document.querySelectorAll(".tab").forEach(btn => btn.setAttribute("aria-pressed",String(btn.dataset.filter === state.filter)));
+        const list = $("#tasks");
+        if (!visible.length) {
+          list.innerHTML = '<div class="empty"><b>' + (state.tasks.length ? "Tidak ada tugas yang cocok." : "Ruangmu masih kosong.") + '</b>' + (state.tasks.length ? "Coba kata kunci atau filter lain." : "Tambahkan satu hal yang ingin kamu selesaikan hari ini.") + '</div>';
+          return;
+        }
+        list.innerHTML = visible.map(task => {
+          const priority = task.priority || "medium";
+          const priorityText = {high:"Prioritas tinggi",medium:"Prioritas sedang",low:"Prioritas santai"}[priority];
+          const dueText = task.due ? '<span class="' + (isOverdue(task) ? "overdue" : "") + '">' + (isOverdue(task) ? "Terlambat · " : "Batas · ") + dateLabel(task.due) + '</span>' : "";
+          return '<article class="task ' + (task.done ? "done" : "") + '">' +
+            '<input class="check" type="checkbox" data-action="toggle" data-id="' + escapeHTML(task.id) + '" ' + (task.done ? "checked" : "") + ' aria-label="Tandai ' + escapeHTML(task.title) + ' sebagai ' + (task.done ? "belum selesai" : "selesai") + '">' +
+            '<div><div class="task-title">' + escapeHTML(task.title) + '</div><div class="meta"><span class="pill">' + escapeHTML(task.category || "Pribadi") + '</span><span class="' + "priority-" + priority + '">' + priorityText + '</span>' + dueText + '</div></div>' +
+            '<div class="actions"><button class="icon-btn" data-action="edit" data-id="' + escapeHTML(task.id) + '" aria-label="Edit ' + escapeHTML(task.title) + '" title="Edit">✎</button><button class="icon-btn delete" data-action="delete" data-id="' + escapeHTML(task.id) + '" aria-label="Hapus ' + escapeHTML(task.title) + '" title="Hapus">×</button></div></article>';
+        }).join("");
+      }
+      $("#task-form").addEventListener("submit", event => {
+        event.preventDefault();
+        const title = $("#new-title").value.trim();
+        if (!title) return;
+        state.tasks.push({id:id(),title,category:$("#new-category").value,priority:$("#new-priority").value,due:"",done:false,createdAt:Date.now()});
+        save(); $("#new-title").value = ""; $("#new-title").focus(); render();
+      });
+      $("#tasks").addEventListener("change", event => {
+        const target = event.target;
+        if (target.dataset.action !== "toggle") return;
+        const task = state.tasks.find(t => t.id === target.dataset.id);
+        if (task) { task.done = target.checked; task.updatedAt = Date.now(); save(); render(); }
+      });
+      $("#tasks").addEventListener("click", event => {
+        const button = event.target.closest("button[data-action]");
+        if (!button) return;
+        const task = state.tasks.find(t => t.id === button.dataset.id);
+        if (!task) return;
+        if (button.dataset.action === "delete") {
+          if (confirm('Hapus tugas "' + task.title + '"?')) { state.tasks = state.tasks.filter(t => t.id !== task.id); save(); render(); }
+        } else if (button.dataset.action === "edit") {
+          state.editingId = task.id;
+          $("#edit-title").value = task.title; $("#edit-category").value = task.category || "Pribadi";
+          $("#edit-priority").value = task.priority || "medium"; $("#edit-due").value = task.due || "";
+          $("#edit-dialog").showModal(); $("#edit-title").focus();
+        }
+      });
+      $("#edit-form").addEventListener("submit", event => {
+        event.preventDefault();
+        const task = state.tasks.find(t => t.id === state.editingId);
+        const title = $("#edit-title").value.trim();
+        if (task && title) {
+          task.title = title; task.category = $("#edit-category").value; task.priority = $("#edit-priority").value;
+          task.due = $("#edit-due").value; task.updatedAt = Date.now(); save(); render();
+        }
+        $("#edit-dialog").close();
+      });
+      $("#cancel-edit").addEventListener("click", () => $("#edit-dialog").close());
+      document.querySelectorAll(".tab").forEach(btn => btn.addEventListener("click", () => { state.filter = btn.dataset.filter; render(); }));
+      $("#search").addEventListener("input", event => { state.query = event.target.value.trim().toLowerCase(); render(); });
+      $("#clear-done").addEventListener("click", () => {
+        const count = state.tasks.filter(t => t.done).length;
+        if (!count) return;
+        if (confirm("Hapus " + count + " tugas yang sudah selesai?")) { state.tasks = state.tasks.filter(t => !t.done); save(); render(); }
+      });
+      window.addEventListener("storage", event => {
+        if (event.key === STORAGE_KEY) { state.tasks = loadTasks(); render(); }
+      });
+      render();
+    })();
+  </script>
+</body>
+</html>
